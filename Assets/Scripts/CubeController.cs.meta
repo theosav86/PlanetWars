@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 300a35da6736bb044a9393437833e056
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - worldCenter: {instanceID: 0}
+  - healthBar: {instanceID: 0}
+  - greenExplosion: {fileID: 387862959858473351, guid: 6bc161cadf1db69489b5eae73ad6360a,
+      type: 3}
+  - redExplosion: {fileID: 157102, guid: fb0cc2e2c0331194d82836c1a95899c1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
