@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
@@ -17,9 +16,10 @@ public class SceneController : MonoBehaviour
     //A random spawn point that will be inside the warZoneRadius
     private Vector3 randomSpawnPoint;
 
-    private float checkRadius = 5f;
+    //radius to check when spawning Cube so it does not spawn inside the planet or on top of another cube.
+    private float checkRadius = 10f;
 
-    private enum GameState {IDLE, RUNNING, GAME_OVER};
+    private enum GameState {IDLE, RUNNING};
 
     private GameState currentState;
 
@@ -44,11 +44,6 @@ public class SceneController : MonoBehaviour
         ScoreBroker.RedCubeKilled += ScoreBroker_RedCubeKilled; 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void SpawnGreenCube()
     {
         //If this is the first cube in the game, change the state of the game to RUNNING
@@ -57,14 +52,13 @@ public class SceneController : MonoBehaviour
             GameStateManager(GameState.RUNNING);
         }
 
-        //SELECT RANDOM SPAWN POINT INSIDE A SPAWN SPHERE
-        randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
-
         //CHECK IF CUBE IS ABOUT TO SPAWN NEAR A COLLIDER (PLANET OR OTHER CUBES)
-        while (Physics.CheckSphere(randomSpawnPoint, checkRadius))
+        do
         {
             randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
         }
+        while (Physics.CheckSphere(randomSpawnPoint, checkRadius));
+        
         //Spawn a GREEN Cube Prefab
         Instantiate(greenCubePrefab, randomSpawnPoint, Quaternion.identity);
 
@@ -97,6 +91,7 @@ public class SceneController : MonoBehaviour
         ScoreBroker.CallUpdateRedCubeScore(redScore);
     }
 
+    //When a Green Cube dies Scene Controller gets notified and calls another event to update the HUD 
     #region Scene Controller Subscribed to Cube Death events handling
     private void ScoreBroker_GreenCubeKilled()
     {
@@ -110,6 +105,8 @@ public class SceneController : MonoBehaviour
             ScoreBroker.CallTeamIsWinning("RED");
         }
     }
+
+    //When a Red Cube dies Scene Controller gets notified and calls another event to update the HUD 
     private void ScoreBroker_RedCubeKilled()
     {
         redScore -= 1;
@@ -127,10 +124,5 @@ public class SceneController : MonoBehaviour
     private void GameStateManager(GameState state)
     {
         currentState = state;
-    }
-
-    private void WinConditions(string winner)
-    {
-        //ScoreBroker.CallTeamIsWinning(winner);
     }
 }

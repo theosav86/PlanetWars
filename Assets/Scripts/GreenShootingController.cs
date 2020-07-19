@@ -12,12 +12,14 @@ public class GreenShootingController : MonoBehaviour
 
     private readonly float fireRate = 1f; //1 shot per second
 
-    private float nextShotTime = 1f; //shooting interval
+    private float nextShotTime = 0f; //shooting interval
 
     private Vector3 origin; //The origin point of the Cube (its center)
 
     //The RED Layermask goes here so the OverlapShpere detects only the enemy team.
-    public LayerMask redLayerMask; 
+    public LayerMask redLayerMask;
+
+    public LayerMask planetLayerMask;
 
     //The line to be drawn when the cube shoots
     public LineRenderer lineRenderer;
@@ -49,9 +51,19 @@ public class GreenShootingController : MonoBehaviour
 
         if (colliderToHit != null)
         {
+
+            //check if the planet is in the way
+            //RaycastHit hit;
+            if (!Physics.Raycast(origin, colliderToHit.transform.position - origin, shootingRadius, planetLayerMask, QueryTriggerInteraction.Collide))
+            { 
             //Draw the Hit Line and apply damage to the enemy
             DrawHitLine(colliderToHit);
             colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 
@@ -86,7 +98,7 @@ public class GreenShootingController : MonoBehaviour
     }
 
 
-    //If you select any cube from the Scene View then this method draws a GREEN sphere for a graphical representation
+    //If you select any cube from the Scene View or the Hierarchy then this method draws a GREEN sphere for a graphical representation
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

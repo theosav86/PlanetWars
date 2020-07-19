@@ -13,7 +13,7 @@ public class RedShootingController : MonoBehaviour
 
     private readonly float fireRate = 1f; //1 shot per second
 
-    private float nextShotTime = 1f; //shooting interval
+    private float nextShotTime = 0f; //shooting interval
 
     private Vector3 origin; //The origin point of the Cube (its center)
 
@@ -21,7 +21,10 @@ public class RedShootingController : MonoBehaviour
     public LineRenderer lineRenderer;
 
     //The GREEN Layermask goes here so the OverlapShpere shoots only the enemy team.
-    public LayerMask greenLayerMask; 
+    public LayerMask greenLayerMask;
+
+    //The PLANET Layermask goes here so if the planet is in the way of the cubes they cannot shoot each other.
+    public LayerMask planetLayerMask;
     #endregion
 
 
@@ -50,8 +53,17 @@ public class RedShootingController : MonoBehaviour
 
         if (colliderToHit != null)
         {
-            DrawHitLine(colliderToHit);
-            colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
+            //Check if the planet is NOT in the way so the cubes cannot shoot each other. 
+            if (!Physics.Raycast(origin, colliderToHit.transform.position - origin, shootingRadius, planetLayerMask, QueryTriggerInteraction.Collide))
+            {
+                //Draw the Hit Line and apply damage to the enemy
+                DrawHitLine(colliderToHit);
+                colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 

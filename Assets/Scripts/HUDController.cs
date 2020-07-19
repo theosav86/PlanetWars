@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class HUDController : MonoBehaviour
 {
@@ -53,5 +54,10 @@ public class HUDController : MonoBehaviour
     private void ScoreBroker_UpdateRedCubeScore(int redScoreValue)
     {
         redScoreText.text = "Red Score: " + redScoreValue.ToString("D2");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
