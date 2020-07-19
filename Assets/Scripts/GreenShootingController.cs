@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-
 //Shooting Controller Requires Rigidbody
 [RequireComponent(typeof(Rigidbody))]
 public class GreenShootingController : MonoBehaviour
 {
     #region Variables
-    [Header("Shooting Radius Setting"), SerializeField, Range(10, 250)]
-    private float shootingRadius = 100f;
+    [Header("Shooting Radius Setting"), SerializeField, Range(50, 300)]
+    private float shootingRadius = 150f;
 
-    private int cubeDamage = 1;
+    private readonly int cubeDamage = 1;
 
-    private float fireRate = 1f; //1 shot per second
+    private readonly float fireRate = 1f; //1 shot per second
 
     private float nextShotTime = 1f; //shooting interval
 
-    private Vector3 origin;
+    private Vector3 origin; //The origin point of the Cube (its center)
 
-    public LayerMask redLayerMask; //The RED Layermask goes here so the OverlapShpere shoots only the enemy team.
+    //The RED Layermask goes here so the OverlapShpere detects only the enemy team.
+    public LayerMask redLayerMask; 
+
+    //The line to be drawn when the cube shoots
+    public LineRenderer lineRenderer;
     #endregion
 
-   
+
     //Using the Fixed update for standard check intervals independent of framerate
     private void FixedUpdate()
     {
@@ -42,10 +45,12 @@ public class GreenShootingController : MonoBehaviour
 
         Collider[] hitColliders = Physics.OverlapSphere(origin, shootingRadius, redLayerMask);
 
-        colliderToHit = FindNearestTarget(hitColliders); 
+        colliderToHit = FindNearestTarget(hitColliders);
 
-        if(colliderToHit != null)
+        if (colliderToHit != null)
         {
+            //Draw the Hit Line and apply damage to the enemy
+            DrawHitLine(colliderToHit);
             colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
         }
     }
@@ -61,6 +66,7 @@ public class GreenShootingController : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
+            //Calculate the distance between the cube and the target
             distance = (transform.position - collider.transform.position).sqrMagnitude;
             if (distance < nearestEnemyDistance)
             {
@@ -71,6 +77,14 @@ public class GreenShootingController : MonoBehaviour
 
         return colliderToHit;
     }
+
+    //Method that draws a line from the Cube that's shooting to the cube that's being shot at.
+    private void DrawHitLine(Collider col)
+    {
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, col.transform.position);
+    }
+
 
     //If you select any cube from the Scene View then this method draws a GREEN sphere for a graphical representation
     private void OnDrawGizmosSelected()

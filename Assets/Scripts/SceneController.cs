@@ -12,7 +12,12 @@ public class SceneController : MonoBehaviour
     private int redScore;
 
     //Sphere radius inside which spaceships (cubes) spawn.
-    private readonly int warZoneRadius = 50;
+    private readonly float warZoneRadius = 60f;
+
+    //A random spawn point that will be inside the warZoneRadius
+    private Vector3 randomSpawnPoint;
+
+    private float checkRadius = 5f;
 
     private enum GameState {IDLE, RUNNING, GAME_OVER};
 
@@ -53,8 +58,13 @@ public class SceneController : MonoBehaviour
         }
 
         //SELECT RANDOM SPAWN POINT INSIDE A SPAWN SPHERE
-        Vector3 randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
+        randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
 
+        //CHECK IF CUBE IS ABOUT TO SPAWN NEAR A COLLIDER (PLANET OR OTHER CUBES)
+        while (Physics.CheckSphere(randomSpawnPoint, checkRadius))
+        {
+            randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
+        }
         //Spawn a GREEN Cube Prefab
         Instantiate(greenCubePrefab, randomSpawnPoint, Quaternion.identity);
 

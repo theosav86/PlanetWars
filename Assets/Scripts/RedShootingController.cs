@@ -4,11 +4,10 @@
 [RequireComponent(typeof(Rigidbody))]
 public class RedShootingController : MonoBehaviour
 {
-
     #region Variables
     // The firing range of the Cube.Can be modified via the inspector
-    [Header("Shooting Radius Setting"), SerializeField, Range(10, 250)]
-    private float shootingRadius = 100f; 
+    [Header("Shooting Radius Setting"), SerializeField, Range(50, 300)]
+    private float shootingRadius = 150f; 
 
     private readonly int cubeDamage = 1; 
 
@@ -16,9 +15,13 @@ public class RedShootingController : MonoBehaviour
 
     private float nextShotTime = 1f; //shooting interval
 
-    private Vector3 origin; // The origin point of the Cube (its center)
+    private Vector3 origin; //The origin point of the Cube (its center)
 
-    public LayerMask greenLayerMask; //The GREEN Layermask goes here so the OverlapShpere shoots only the enemy team.
+    //The line to be drawn when the cube shoots
+    public LineRenderer lineRenderer;
+
+    //The GREEN Layermask goes here so the OverlapShpere shoots only the enemy team.
+    public LayerMask greenLayerMask; 
     #endregion
 
 
@@ -47,6 +50,7 @@ public class RedShootingController : MonoBehaviour
 
         if (colliderToHit != null)
         {
+            DrawHitLine(colliderToHit);
             colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
         }
     }
@@ -62,6 +66,7 @@ public class RedShootingController : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
+            //Calculate the distance between the cube and the target
             distance = (transform.position - collider.transform.position).sqrMagnitude;
             if (distance < nearestEnemyDistance)
             {
@@ -73,7 +78,14 @@ public class RedShootingController : MonoBehaviour
         return colliderToHit;
     }
 
-    //If you select any cube from the Scene View then this method draws a RED sphere for a graphical representation
+    //Method that draws a line from the Cube that's shooting to the cube that's being shot at.
+    private void DrawHitLine(Collider col)
+    {
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, col.transform.position);
+    }
+
+    //If you select any cube from the Scene View or Hierarchy then this method draws a RED sphere for a graphical representation
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
