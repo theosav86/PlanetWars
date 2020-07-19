@@ -65,6 +65,10 @@ public class RedShootingController : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            return;
+        }
     }
 
     //Method that finds and returns the nearest Green Cube collider

@@ -16,8 +16,8 @@ public class CubeController : MonoBehaviour
     public Transform worldCenter; 
 
     //The speed at which the cubes are orbiting around the planet. Can be modified via the Inspector.
-    [Header("Orbit Speed Setting"), Range(5, 50)]
-    public float orbitSpeed = 20f;
+    //[Header("Orbit Speed Setting"), Range(5, 50)] initial range was 20
+    private int orbitSpeed;
 
     //Slot for the health text under the Cubes Canvas.
     [Header("Reference to UI Element")]
@@ -35,6 +35,8 @@ public class CubeController : MonoBehaviour
         currentHealthPoints = cubeHealthPoints;
 
         randomAxis = SelectRandomAxis();
+
+        orbitSpeed = Random.Range(20, 26);
     }
 
     //Method that returns a random Axis.

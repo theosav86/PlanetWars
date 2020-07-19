@@ -52,8 +52,7 @@ public class GreenShootingController : MonoBehaviour
         if (colliderToHit != null)
         {
 
-            //check if the planet is in the way
-            //RaycastHit hit;
+            //Check if the planet is NOT in the way so the cubes cannot shoot each other. 
             if (!Physics.Raycast(origin, colliderToHit.transform.position - origin, shootingRadius, planetLayerMask, QueryTriggerInteraction.Collide))
             { 
             //Draw the Hit Line and apply damage to the enemy
@@ -64,6 +63,10 @@ public class GreenShootingController : MonoBehaviour
             {
                 return;
             }
+        }
+        else
+        {
+            return;
         }
     }
 
