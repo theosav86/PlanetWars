@@ -15,8 +15,7 @@ public class CubeController : MonoBehaviour
     //The center of the planet in the Scene. The cube rotates around it.
     public Transform worldCenter; 
 
-    //The speed at which the cubes are orbiting around the planet. Can be modified via the Inspector.
-    //[Header("Orbit Speed Setting"), Range(5, 50)] initial range was 20
+    //The speed at which the cubes are orbiting around the planet. It's a random value between 20-25 for each cube.
     private int orbitSpeed;
 
     //Slot for the health text under the Cubes Canvas.

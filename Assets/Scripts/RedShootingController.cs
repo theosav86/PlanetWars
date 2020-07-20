@@ -5,19 +5,21 @@
 public class RedShootingController : MonoBehaviour
 {
     #region Variables
-    // The firing range of the Cube.Can be modified via the inspector
+
+    // The firing range of the Cube.Can be modified via the inspector.
+
     [Header("Shooting Radius Setting"), SerializeField, Range(50, 300)]
     private float shootingRadius = 150f; 
 
     private readonly int cubeDamage = 1; 
 
-    private readonly float fireRate = 1f; //1 shot per second
+    private readonly float fireRate = 1f; //1 shot per second.
 
-    private float nextShotTime = 0f; //shooting interval
+    private float nextShotTime = 0f; //shooting interval.
 
-    private Vector3 origin; //The origin point of the Cube (its center)
+    private Vector3 origin; //The origin point of the Cube (its center).
 
-    //The line to be drawn when the cube shoots
+    //The line to be drawn when the cube shoots.
     public LineRenderer lineRenderer;
 
     //The GREEN Layermask goes here so the OverlapShpere shoots only the enemy team.
@@ -42,7 +44,7 @@ public class RedShootingController : MonoBehaviour
         }
     }
 
-    //Method that activates an OverlapSphere and shoots the nearest target
+    //Method that activates an OverlapSphere and shoots the nearest target.
     private void RedCubeShoot()
     {
         Collider colliderToHit = null;
@@ -56,7 +58,7 @@ public class RedShootingController : MonoBehaviour
             //Check if the planet is NOT in the way so the cubes cannot shoot each other. 
             if (!Physics.Raycast(origin, colliderToHit.transform.position - origin, shootingRadius, planetLayerMask, QueryTriggerInteraction.Collide))
             {
-                //Draw the Hit Line and apply damage to the enemy
+                //Draw the Hit Line and apply damage to the enemy.
                 DrawHitLine(colliderToHit);
                 colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
             }
@@ -71,10 +73,10 @@ public class RedShootingController : MonoBehaviour
         }
     }
 
-    //Method that finds and returns the nearest Green Cube collider
+    //Method that finds and returns the nearest Green Cube collider.
     private Collider FindNearestTarget(Collider[] colliders)
     {
-        //Initialize nearest distance with a huge number
+        //Initialize nearest distance with a huge number.
         float nearestEnemyDistance = Mathf.Infinity;
         float distance;
 
@@ -82,7 +84,7 @@ public class RedShootingController : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            //Calculate the distance between the cube and the target
+            //Calculate the distance between the cube and the target.
             distance = (transform.position - collider.transform.position).sqrMagnitude;
             if (distance < nearestEnemyDistance)
             {
@@ -101,7 +103,7 @@ public class RedShootingController : MonoBehaviour
         lineRenderer.SetPosition(1, col.transform.position);
     }
 
-    //If you select any cube from the Scene View or Hierarchy then this method draws a RED sphere for a graphical representation
+    //If you select any cube from the Scene View or Hierarchy then this method draws a RED sphere for a graphical representation.
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

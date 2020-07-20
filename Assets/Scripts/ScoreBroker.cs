@@ -4,12 +4,10 @@ public class ScoreBroker
 {
     //Events that update the Green and Red Score on the HUD.
     public static event Action<int> UpdateGreenCubeScore;
-
     public static event Action<int> UpdateRedCubeScore;
 
     //Events that get invoked when a cube dies.
     public static event Action GreenCubeKilled;
-
     public static event Action RedCubeKilled;
 
     //Event that gets invoked when a team of cubes has no opponents on the field.

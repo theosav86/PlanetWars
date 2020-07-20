@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4060636022007187083}
+  - component: {fileID: 773239820}
   m_Layer: 10
   m_Name: WorldCenter
   m_TagString: Untagged
@@ -31,18 +32,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1700878838
+--- !u!135 &773239820
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5439129974829380335}
+  m_GameObject: {fileID: 4060636022007187082}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.55
+  m_Radius: 25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &371891248
 MonoBehaviour:

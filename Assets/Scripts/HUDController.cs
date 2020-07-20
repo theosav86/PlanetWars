@@ -29,10 +29,10 @@ public class HUDController : MonoBehaviour
         #endregion
     }
 
-    //Updates winning text on HUD if 1 Team is Winning the War
+    //Updates winning text on HUD if a Team is winning the War
     private void ScoreBroker_TeamIsWinning(string winningTeam)
     {
-        leadingTeamText.text = "Team Currently Winning: " + winningTeam;
+        leadingTeamText.text = "Leading Team : " + winningTeam;
 
         if(winningTeam.Equals("GREEN"))
         {
@@ -56,6 +56,7 @@ public class HUDController : MonoBehaviour
         redScoreText.text = "Red Score: " + redScoreValue.ToString("D2");
     }
 
+    //Method that exits the app
     public void QuitGame()
     {
         Application.Quit();

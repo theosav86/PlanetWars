@@ -7,6 +7,7 @@ public class SceneController : MonoBehaviour
 {
 
     #region Variables
+
     private int greenScore;
     private int redScore;
 
@@ -44,6 +45,7 @@ public class SceneController : MonoBehaviour
         ScoreBroker.RedCubeKilled += ScoreBroker_RedCubeKilled; 
     }
 
+    #region HUD SPAWN BUTTONS CONTROL THIS
     public void SpawnGreenCube()
     {
         //If this is the first cube in the game, change the state of the game to RUNNING
@@ -78,8 +80,12 @@ public class SceneController : MonoBehaviour
             GameStateManager(GameState.RUNNING);
         }
 
-        //SELECT RANDOM SPAWN POINT INSIDE A SPAWN SPHERE (warZoneRadius)
-        Vector3 randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
+        //CHECK IF CUBE IS ABOUT TO SPAWN NEAR A COLLIDER (PLANET OR OTHER CUBES)
+        do
+        {
+            randomSpawnPoint = Random.insideUnitSphere * warZoneRadius;
+        }
+        while (Physics.CheckSphere(randomSpawnPoint, checkRadius));
 
         //Spawn a RED Cube Prefab
         Instantiate(redCubePrefab, randomSpawnPoint, Quaternion.identity);
@@ -90,6 +96,7 @@ public class SceneController : MonoBehaviour
         //EVENT UPDATE REDSCORE to update the score on the HUD
         ScoreBroker.CallUpdateRedCubeScore(redScore);
     }
+    #endregion
 
     //When a Green Cube dies Scene Controller gets notified and calls another event to update the HUD 
     #region Scene Controller Subscribed to Cube Death events handling

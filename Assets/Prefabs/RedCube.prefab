@@ -256,7 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldCenter: {fileID: 4060636022007187083, guid: e3360220ef90dcc4dab26736d5c99fed,
     type: 3}
-  orbitSpeed: 20
   healthBarText: {fileID: 4173548893833061364}
   explosion: {fileID: 157102, guid: fb0cc2e2c0331194d82836c1a95899c1, type: 3}
 --- !u!114 &5515629505213595859

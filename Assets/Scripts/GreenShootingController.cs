@@ -5,6 +5,9 @@
 public class GreenShootingController : MonoBehaviour
 {
     #region Variables
+
+    // The firing range of the Cube.Can be modified via the inspector.
+
     [Header("Shooting Radius Setting"), SerializeField, Range(50, 300)]
     private float shootingRadius = 150f;
 
@@ -19,6 +22,7 @@ public class GreenShootingController : MonoBehaviour
     //The RED Layermask goes here so the OverlapShpere detects only the enemy team.
     public LayerMask redLayerMask;
 
+    //The PLANET Layermask goes here so if the planet is in the way of the cubes they cannot shoot each other.
     public LayerMask planetLayerMask;
 
     //The line to be drawn when the cube shoots
@@ -40,7 +44,7 @@ public class GreenShootingController : MonoBehaviour
         }
     }
 
-    //Method that activates an OverlapSphere and shoots the nearest target
+    //Method that casts an OverlapSphere and shoots the nearest target
     private void GreenCubeShoot()
     {
         Collider colliderToHit = null;
@@ -55,9 +59,9 @@ public class GreenShootingController : MonoBehaviour
             //Check if the planet is NOT in the way so the cubes cannot shoot each other. 
             if (!Physics.Raycast(origin, colliderToHit.transform.position - origin, shootingRadius, planetLayerMask, QueryTriggerInteraction.Collide))
             { 
-            //Draw the Hit Line and apply damage to the enemy
-            DrawHitLine(colliderToHit);
-            colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
+                //Draw the Hit Line and apply damage to the enemy
+                DrawHitLine(colliderToHit);
+                colliderToHit.gameObject.GetComponent<CubeController>().TakeDamage(cubeDamage);
             }
             else
             {
